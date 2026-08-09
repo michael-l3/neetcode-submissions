@@ -7,7 +7,7 @@
 
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        
+
         def isValid(minn,maxx,node): 
             if not node: 
                 return True 
@@ -17,4 +17,4 @@ class Solution:
             
             return isValid(minn,node.val,node.left) and isValid(node.val,maxx,node.right)
         
-        return isValid(float('-infinity'), float('infinity'), root)
+        return isValid(float("-infinity"), float("infinity"), root)
