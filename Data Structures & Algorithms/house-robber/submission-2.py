@@ -1,21 +1,20 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        #cant rob two adjacent houses
-        maxProfit = 0 
+        memo = {}
 
-        if len(nums) == 1: 
-            return nums[0]
-        if len(nums) == 2: 
-            return max(nums[0],nums[1])
+        def dfs(i): 
+            if i >= len(nums): 
+                return 0
+            
+            if i in memo: 
+                return memo[i]
+            
+            #you cant rob two adjacent houses
+            firstHouse = dfs(i+2)
+            secondHouse = dfs(i+1)
+
+            #max between robbing two or just robbing that house
+            memo[i] = max(firstHouse + nums[i], secondHouse)
+            return memo[i]
         
-        first = nums[0]
-        second = max(nums[0],nums[1])
-
-        for i in range(2,len(nums)): 
-            curr = max(first + nums[i], second)
-            first = second 
-            second = curr 
-
-            maxProfit = max(first, second)
-        
-        return maxProfit
+        return dfs(0)
