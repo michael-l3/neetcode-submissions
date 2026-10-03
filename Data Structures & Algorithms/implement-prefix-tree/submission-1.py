@@ -1,43 +1,35 @@
 class PrefixTree:
 
     def __init__(self):
+        #a trie is a dictionary of dictionaries 
         self.trie = {}
-
     def insert(self, word: str) -> None:
-        #call the trie 
-        d = self.trie 
+        t = self.trie
 
-        #go through all of the words in a nested form and keep going into the nested dictionary until 
-        #the characters arent there and add them 
         for ch in word: 
-            if ch not in d: 
-                d[ch] = {} 
-            
-            #then enter that nested to keep going down 
-            d = d[ch]
-        d['.'] = '.'
+            if ch not in t: 
+                t[ch] = {}
+                #then we move into int 
+            t = t[ch]
+        t['.'] = '.'
 
     def search(self, word: str) -> bool:
-        d = self .trie 
+        t = self.trie
 
         for ch in word: 
-            if ch not in d: 
-                return False 
-            d = d[ch]
-
-        #at the end we need to make sure the word is there by returning the '.' 
-        return '.' in d
-        
+            if ch not in t: 
+                return False
+                #then we move into int 
+            t = t[ch]
+        return '.' in t
 
     def startsWith(self, prefix: str) -> bool:
-        d = self .trie 
+        t = self.trie
 
         for ch in prefix: 
-            if ch not in d: 
-                return False 
-            d = d[ch]
-
-        #at the end we need to make sure the word is there by returning the '.' 
+            if ch not in t: 
+                return False
+                #then we move into int 
+            t = t[ch]
         return True
-        
         
