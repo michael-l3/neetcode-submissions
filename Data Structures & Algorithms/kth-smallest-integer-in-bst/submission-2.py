@@ -7,25 +7,29 @@
 
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        #everything on left of root is smaller so we have to go down there first 
+        #decrement k 
+
         counter = 0
         answer = None
-        
+
         def dfs(node): 
-            nonlocal counter,answer 
+            nonlocal counter,answer
 
-            if not node: 
-                return 
+            if not node:
+                return None
 
-            dfs(node.left) #--> to go down to the smallest number
+            #check left first 
+            dfs(node.left)  
+            counter += 1 
+
+            if counter == k: 
+                answer = node.val
+                return
             
-            counter += 1
-            if counter == k:
-                answer = node.val 
-                return 
-            
-            dfs(node.right) #--> check the next smallest after it returns 
+            #checkright after 
+            dfs(node.right)
         
         dfs(root)
-
         return answer
-        
+            
