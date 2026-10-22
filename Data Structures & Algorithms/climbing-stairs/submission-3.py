@@ -1,17 +1,22 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        
-        if n == 1: 
-            return 1
-        if n == 2: 
-            return 2 
+        #top down memoization 
+        memo = {}
 
-        first = 1 
-        second = 2 
+        def dfs(i): 
+            if i == n: 
+                return 1
+            
+            if i > n: 
+                return 0
+            
+            if i in memo: 
+                return memo[i]
+            
+            oneStep = dfs(i+1)
+            twoStep = dfs(i+2)
 
-        for _ in range(2,n): 
-            curr = first + second
-            first = second 
-            second = curr 
+            memo[i] = oneStep + twoStep
+            return memo[i]
 
-        return curr
+        return dfs(0)
