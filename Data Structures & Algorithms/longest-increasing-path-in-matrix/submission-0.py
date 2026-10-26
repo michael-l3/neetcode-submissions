@@ -1,42 +1,36 @@
 class Solution:
-    def longestIncreasingPath(self, matrix: list[list[int]]) -> int:
-        m = len(matrix) 
-        n = len(matrix[0])
-        
-        # Explicitly building your 2D memo board
-        memo = []
-        for r in range(m): 
-            row = []
-            for c in range(n): 
-                row.append(-1)
-            memo.append(row) 
-        
-        def dfs(row, col):
-            # Memo check
-            if memo[row][col] != -1: 
-                return memo[row][col]
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        row = len(matrix)
+        col = len(matrix[0])
 
-            # Every cell has at least a path length of 1 (itself)
+        memo = [] 
+
+        for i in range(row): 
+            r = []
+            for j in range(col): 
+                r.append(-1)
+            memo.append(r)
+        
+        def dfs(i,j): 
+            if memo[i][j] != -1: 
+                return memo[i][j]
+            
             longest = 1 
 
-            # Check all 4 directions
-            for r_off, c_off in [(0, 1), (0, -1), (1, 0), (-1, 0)]: 
-                i = row + r_off
-                j = col + c_off
+            for i_off,j_off in [(0,1),(0,-1),(1,0),(-1,0)]: 
+                r = i + i_off
+                c = j + j_off 
 
-                # If the neighbor is within bounds and strictly greater in value
-                if 0 <= i < m and 0 <= j < n and matrix[i][j] > matrix[row][col]: 
-                    curr_longest = 1 + dfs(i, j)
-                    longest = max(curr_longest, longest)
+                if 0 <= r < row and 0 <= c < col and matrix[r][c] > matrix[i][j]: 
+                    currLong = 1 + dfs(r,c)
+                    longest = max(longest,currLong)
             
-            # Save and return the max path found from this cell
-            memo[row][col] = longest 
+            memo[i][j] = longest 
             return longest
         
-        # Scan every cell in the matrix because the longest path can start anywhere
-        global_max = 0
-        for r in range(m):
-            for c in range(n):
-                global_max = max(global_max, dfs(r, c))
-                
-        return global_max
+        res = 0 
+        for i in range(row): 
+            for j in range(col): 
+                res = max(res,dfs(i,j))
+
+        return res
